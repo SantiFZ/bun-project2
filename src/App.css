@@ -37,12 +37,14 @@ h1 {
   background: #d4c1aa;
   padding: 2rem;
   border-radius: 50px;
+  box-shadow: -8px 39px 21px 0px rgba(0,0,0,0.1);
 }
 
 .TodoCompleted{
 background: #d4c1aa;
 padding: 2rem;
 border-radius: 50px;
+box-shadow: -8px 39px 21px 0px rgba(0,0,0,0.1);
 }
 
 .TodoForm {
@@ -52,8 +54,8 @@ border-radius: 50px;
 
 .todo-input {
   outline: none;
-  background: none;
-  border: 1px solid #ff0000;
+  background: #fff0df;
+  border: 5px solid#febbd0;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
@@ -66,10 +68,10 @@ border-radius: 50px;
 }
 
 .todo-btn {
-  background: #f34848;
+  background: #febbd0;
   color: #000000;
   border: none;
-  padding: 0.55rem;
+  padding: 0.725rem;
   cursor: pointer;
 }
 

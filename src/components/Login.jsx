@@ -1,26 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Login.css'
-
-
+import axios from 'axios'
 const Login = () => {
+    const [form,setform] = useState({username:"",password:""})
+
+    const sigin = async (event) =>{
+        event.preventDefault();
+        const response = await axios.post("http://localhost:3001/users/login",form)
+        if(response.status === 200){
+            localStorage.setItem("user",JSON.stringify(form))
+        }else{
+            alert("El usuario no existe.")
+        }
+        console.log(response)
+
+
+    }
+
+    const handleChange = (e) =>{
+        setform({...form, [e.target.name]:e.target.value})
+        
+    }
     return(
-        <div>
-            <div className='container'>
-                <div className='header'>
-                    <div className='text'>Login</div>
-                    <div className='underline'></div>
-                </div>
-                <div className='inputs'>
-                    <div className='input'></div>
-                    <input type="text" />
-                </div>
-                <div className='input'>
-                    <input type="password" />
-                </div>
-            </div>
-            <div className='submit-container'>
-                <div className='submit'>Login</div>
-            </div>
+            
+        <div className='container'>
+            <form onSubmit={sigin}>
+            <img src="/Logo-principal.png" alt="" className='logo-principal'/>
+          <h1 className='login-title'>Iniciar Sesion</h1>
+            <input name='username' type="text" className='todo-input' placeholder='Usuario' onChange={handleChange}/>
+            <input name='password' type="password" className='todo-input' placeholder='********' onChange={handleChange}/>
+            <button className='todo-btn' type='submit'>Iniciar Sesion</button>
+        </form>
         </div>
     )
 }
