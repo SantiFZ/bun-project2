@@ -12,7 +12,7 @@ export const TodoWrapper = () => {
       ...todos,
       { id: uuidv4(), task: todo, completed: false, isEditing: false },
     ]);
-  }
+  };
 
   const deleteTodo = (id) => setTodos(todos.filter((todo) => todo.id !== id));
 
@@ -22,7 +22,7 @@ export const TodoWrapper = () => {
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
-  }
+  };
 
   const editTodo = (id) => {
     setTodos(
@@ -30,7 +30,7 @@ export const TodoWrapper = () => {
         todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
       )
     );
-  }
+  };
 
   const editTask = (task, id) => {
     setTodos(
@@ -42,8 +42,7 @@ export const TodoWrapper = () => {
 
   return (
     <div className="TodoWrapper">
-     <img src="/bunpng.png"/>
-      <h1>Bienvenido</h1>
+      <img src="/bunpng.png" />
       <TodoForm addTodo={addTodo} />
       {/* display todos */}
       {todos.map((todo) =>

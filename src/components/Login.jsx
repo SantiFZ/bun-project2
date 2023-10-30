@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import './Login.css'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
     const [form,setform] = useState({username:"",password:""})
+    const navigate = useNavigate()
 
     const sigin = async (event) =>{
         event.preventDefault();
         const response = await axios.post("http://localhost:3001/users/login",form)
         if(response.status === 200){
             localStorage.setItem("user",JSON.stringify(form))
+            navigate("/todo")
         }else{
             alert("El usuario no existe.")
         }
