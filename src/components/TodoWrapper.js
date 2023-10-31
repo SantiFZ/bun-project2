@@ -5,24 +5,7 @@ import { EditTodoForm } from "./EditTodoForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const TodoWrapper = () => {
-  const [todos, setTodos] = useState([]);
-  useEffect(() => {
-    getAllTodos();
-  }, [])
-
-  const getAllTodos = async () => {
-    const user = getUser();
-    if (!user) return;
-    const response = await axios.get("/tasks/", {
-      params: {
-        username: user.username,
-      }
-    })
-    if (response.status === 200) {
-      setTodos(response.data)
-    }
-  }
+export const TodoWrapper = ({ todos, setTodos, setCompletedTodos, completedTodos }) => {
   const getUser = () => {
     const userInLocalStorage = localStorage.getItem("user");
     if (userInLocalStorage) {
@@ -44,7 +27,7 @@ export const TodoWrapper = () => {
       })
       setTodos([
         ...todos,
-        { id: todos.length + 1, description: todo, completed: false, isEditing: false },
+        { id: response.data.task.id, description: todo, done: response.data.task.done, isEditing: false },
       ]);
     }
   };
@@ -58,16 +41,22 @@ export const TodoWrapper = () => {
         icon: '👏',
         duration: 1000,
       })
-      setTodos(todos.filter((todo) => todo.id !== id));
+      setTodos([...todos.filter((todo) => todo.id !== id)]);
     }
   }
 
-  const toggleComplete = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  const toggleComplete = async (id) => {
+    const user = getUser();
+    if (!user) return;
+    const currentTodo = todos.find((todo) => todo.id === id);
+    const response = await axios.put(`/tasks/${user.username}/${id}`, {
+      done: !Boolean(currentTodo.done),
+      description: currentTodo.description
+    })
+    if (response.status === 200) {
+      setTodos([...todos.filter((todo) => todo.id !== id), { ...currentTodo, done: !Boolean(currentTodo.done) ? 1 : 0 }]);
+      toast.success(`Tarea Completada!`)
+    }
   };
 
   const editTodo = async (id) => {
@@ -104,7 +93,7 @@ export const TodoWrapper = () => {
       <img src="/bunpng.png" />
       <TodoForm addTodo={addTodo} />
       {/* display todos */}
-      {todos.map((todo) =>
+      {todos && todos.filter((todo) => Boolean(todo.done) === false).map((todo) =>
         <Fragment key={todo.id}>
           {
             todo.isEditing ? (
