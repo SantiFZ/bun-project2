@@ -28,7 +28,7 @@ const Login = () => {
             
         <div className='container'>
             <form onSubmit={sigin}>
-            <img src="/Logo-principal.png" alt="" className='logo-principal'/>
+            <img src="/LogoPrincipal.png" alt="" className='logo-principal'/>
           <h1 className='login-title'>Iniciar Sesion</h1>
             <input name='username' type="text" className='todo-input' placeholder='Usuario' onChange={handleChange}/>
             <input name='password' type="password" className='todo-input' placeholder='********' onChange={handleChange}/>
